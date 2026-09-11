@@ -11,13 +11,40 @@ the function below should be the only one in this file.
 */
 
 #include "split.h"
+#include <cstddef>
 
-/* Add a prototype for a helper function here if you need */
+// The function recurses on the rest of the list before it
+// sorts the current node. Essentially, the base case (NULL) is reached first
+// and then with each recursive call, the current node gets attached to the
+// beginning of the front of evens or odds depending on whether itself is even or odd.
+// In this way, no nodes are being added or deleted.
 
 void split(Node*& in, Node*& odds, Node*& evens)
 {
-  /* Add code here */
-// WRITE YOUR CODE HERE
+// If there's no input (AKA in == NULL), return the empty list.
+// This serves as the BASE CASE for the recursive function:
+	if (in == NULL){
+		return;
+	}
+
+// If the list is NOT empty, proceed with the following:
+// 
+	Node* head = in; // stores the first node of the list
+	in = in->next; // detaches the first node from the rest of the list by moving the pointer forward 1 node
+
+// Split everthing after the head node:
+//
+	split(in, odds, evens);
+
+// Determine whether the head is even or odd, and append to front of corresponding list
+//
+	if(head->value % 2 == 0){ // head is thus even and is added to the front of the "evens" list
+		head->next = evens;
+		evens = head;
+	}
+	else { // head must therefore be odd
+		head->next = odds;
+		odds = head;
+	}
 }
 
-/* If you needed a helper function, write it here */
